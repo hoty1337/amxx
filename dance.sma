@@ -276,5 +276,5 @@ public animMenuHandler(id, menu, item)
 }
 public fwdPlayerKilled(id)
 {
-   stopAnim(id)   
+   stopAnim(id)
 }

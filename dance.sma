@@ -10,7 +10,7 @@
 #define AUTHOR "code PomanoB and translite ScrooleR"
 
 #define ANIM_MODEL "models/anim.mdl"
-
+// xD
 native jbm_get_day_mode();
 
 enum _:PLAYER_DATA

@@ -241,6 +241,7 @@ public stopAnim(id)
    client_cmd(id, "stopsound");
 }
 
+
 public animMenuHandler(id, menu, item)
 {
    if(item == MENU_EXIT)

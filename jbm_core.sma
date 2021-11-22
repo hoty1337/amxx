@@ -15168,7 +15168,15 @@ jbe_boxing_disable_all()
 jbe_boxing_game_start(pPlayer)
 {
 	new iPlayers;
-	for(new iPlayer = 1; iPlayer <= g_iMaxPlayers; iPlayer++) if(isSetBit(g_iBitUserBoxing, iPlayer)) iPlayers++;
+	for(new iPlayer = 1; iPlayer <= g_iMaxPlayers; iPlayer++) 
+	{
+		if(isSetBit(g_iBitUserBoxing, iPlayer)) 
+		{
+			jbm_get_user_model(iPlayer, g_szOldPlayerModel[iPlayer], 32);
+			jbm_default_player_model(iPlayer);
+			iPlayers++;
+		}
+	}
 	if(iPlayers < 2) UTIL_SayText(pPlayer, "!g[JBE] %L", pPlayer, "JBE_CHAT_ID_BOXING_INSUFFICIENTLY_PLAYERS");
 	else
 	{
@@ -15183,7 +15191,8 @@ jbe_boxing_game_team_start(pPlayer)
 	for(new iPlayer = 1; iPlayer <= g_iMaxPlayers; iPlayer++)
 	{
 		if(isSetBit(g_iBitUserBoxing, iPlayer))
-		{
+		{		
+			jbm_get_user_model(iPlayer, g_szOldPlayerModel[iPlayer], 32);
 			switch(g_iBoxingUserTeam[iPlayer])
 			{
 				case 0: iPlayersRed++;
@@ -15205,6 +15214,7 @@ jbe_boxing_game_end()
 	{
 		if(isSetBit(g_iBitUserBoxing, iPlayer))
 		{
+			jbm_set_user_model(iPlayer, g_szOldPlayerModel[iPlayer]);
 			clearBit(g_iBitUserBoxing, iPlayer);
 			set_pdata_int(iPlayer, m_bloodColor, 247);
 			new iActiveItem = get_pdata_cbase(iPlayer, m_pActiveItem, linux_diff_player);

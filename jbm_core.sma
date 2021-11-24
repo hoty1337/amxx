@@ -964,6 +964,8 @@ static const g_szRankName[TOTAL_PLAYER_LEVELS][]=
 	"JBM_ID_HUD_RANK_NAME_14"
 };
 
+new g_szConfigsDir[64];
+
 new g_szRankHost[32];
 new g_szRankUser[32];
 new g_szRankPassword[32]; 
@@ -1231,6 +1233,7 @@ LOAD_CONFIGURATION()
 {
 	new szCfgDir[64], szCfgFile[128];
 	get_localinfo("amxx_configsdir", szCfgDir, charsmax(szCfgDir));
+	get_localinfo("amxx_configsdir", g_szConfigsDir, charsmax(g_szConfigsDir));
 	
 // CONFIG.INI
 	formatex(szCfgFile, charsmax(szCfgFile), "%s/jb_mode/config.ini", szCfgDir);
@@ -14105,6 +14108,9 @@ public jbm_main_informer(pPlayer)
 			if(g_iExpName[pPlayer] >= g_szExp[g_iLevel[pPlayer][1] + 1])
 			{
 				g_iLevel[pPlayer][1]++;
+				new szDir[128]; 
+				formatex(szDir, charsmax(szDir), "%s/ranks.log", g_szConfigsDir);
+				log_to_file(szDir, "<3 Игрок %n (%s) увеличил уровень погоняла до %s (%d).", pPlayer, g_szSteamID[pPlayer], g_szRankName[g_iLevel[pPlayer][1]], g_iLevel[pPlayer][1]);
 				g_iExpName[pPlayer] = 0;
 				new szName[32];
 				get_user_name(pPlayer, szName, charsmax(szName)); 
@@ -15173,7 +15179,7 @@ jbe_boxing_game_start(pPlayer)
 		if(isSetBit(g_iBitUserBoxing, iPlayer)) 
 		{
 			jbm_get_user_model(iPlayer, g_szOldPlayerModel[iPlayer], 32);
-			jbm_default_player_model(iPlayer);
+			jbm_set_user_model(iPlayer, g_szPlayerModel[PRISONER]);
 			iPlayers++;
 		}
 	}
@@ -16010,6 +16016,9 @@ public jbm_get_user_level_rank(pPlayer)
 public jbm_set_user_level(pPlayer, iLevel, iInfo)
 {
 	g_iLevel[pPlayer][0] = iLevel;
+	new szDir[128]; 
+	formatex(szDir, charsmax(szDir), "%s/ranks.log", g_szConfigsDir);
+	log_to_file(szDir, "<3 Игрок %n (%s) увеличил уровень погоняла до %d.", pPlayer, g_szSteamID[pPlayer], g_iLevel[pPlayer][0]);
 	if(iInfo)
 	{
 		new szName[32];
@@ -16031,6 +16040,9 @@ public jbm_set_user_exp(pPlayer, iExp, iInfo)
 	if(g_iExpTime[pPlayer] >= g_iLevelCvars[EXP_NEED])
 	{
 		g_iLevel[pPlayer][0]++;
+		new szDir[128]; 
+		formatex(szDir, charsmax(szDir), "%s/ranks.log", g_szConfigsDir);
+		log_to_file(szDir, "<3 Игрок %n (%s) увеличил уровень погоняла до %d.", pPlayer, g_szSteamID[pPlayer], g_iLevel[pPlayer][0]);
 		g_iExpTime[pPlayer] = 0;
 		if(iInfo)
 		{

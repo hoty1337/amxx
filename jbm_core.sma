@@ -16018,7 +16018,7 @@ public jbm_set_user_level(pPlayer, iLevel, iInfo)
 	g_iLevel[pPlayer][0] = iLevel;
 	new szDir[128]; 
 	formatex(szDir, charsmax(szDir), "%s/ranks.log", g_szConfigsDir);
-	log_to_file(szDir, "<3 Игрок %n (%s) увеличил уровень погоняла до %d.", pPlayer, g_szSteamID[pPlayer], g_iLevel[pPlayer][0]);
+	log_to_file(szDir, "<3 Игрок %n (%s) увеличил уровень до %d.", pPlayer, g_szSteamID[pPlayer], g_iLevel[pPlayer][0]);
 	if(iInfo)
 	{
 		new szName[32];
@@ -16042,7 +16042,7 @@ public jbm_set_user_exp(pPlayer, iExp, iInfo)
 		g_iLevel[pPlayer][0]++;
 		new szDir[128]; 
 		formatex(szDir, charsmax(szDir), "%s/ranks.log", g_szConfigsDir);
-		log_to_file(szDir, "<3 Игрок %n (%s) увеличил уровень погоняла до %d.", pPlayer, g_szSteamID[pPlayer], g_iLevel[pPlayer][0]);
+		log_to_file(szDir, "<3 Игрок %n (%s) увеличил уровень до %d.", pPlayer, g_szSteamID[pPlayer], g_iLevel[pPlayer][0]);
 		g_iExpTime[pPlayer] = 0;
 		if(iInfo)
 		{

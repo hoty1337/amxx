@@ -46,7 +46,7 @@ public jbe_return_drugs_model(pPlayer)
 #define TASK_DRUGS_3 20003
 #define TASK_DRUGS_4 20004
 
-enum DrugsEffects {
+enum _:DrugsEffects {
 	TASK_GASH_EFFECT = 20111,
 	TASK_SPICE_EFFECT,
  	TASK_LSD_EFFECT,
@@ -54,18 +54,21 @@ enum DrugsEffects {
  	TASK_GER_EFFECT,
  	TASK_PIZDOS
 }
+
+enum _:DrugsEffects2 {
+	TASK_PEREDOZ = 21004,
+	TASK_UNPEREDOZ,
+	TASK_FIXSPEED,
+	TASK_UNDRUGSEFF,
+	TASK_ZEMLETRUS_EFF,
+	TASK_SHAKE_EF,
+	TASK_UN_SCR_FADE,
+	TASK_SPICE_SCR_EF_RAND
+}
+
 #define TASK_MINUS_LOMKA 		21001
 #define TASK_LOMAET		 		21002
 #define TASK_LOMKA				21003
-#define TASK_PEREDOZ	 		21004
-#define TASK_UNPEREDOZ	 		21005
-#define TASK_FIXSPEED			21006
-#define TASK_UNDRUGSEFF			21007
-#define TASK_ZEMLETRUS_EFF		21008
-#define TASK_SHAKE_EF			21009
-#define TASK_UN_SCR_FADE		21010
-#define TASK_SPICE_SCR_EF_RAND	21011
-
 
 #define DRUGS1_MIN_HP 60
 #define DRUGS1_MAX_HP 120
@@ -119,7 +122,25 @@ public LogEvent_RoundStart()
 {
 	for(new i = 1; i < get_maxplayers(); i++)
 	{
-		if(task_exists(i + ))
+		if(!is_user_connected(i)) continue;
+		for(new j = TASK_GASH_EFFECT; j < TASK_GASH_EFFECT + DrugsEffects; j++)
+		{
+			if(task_exists(i + j))
+			{
+				remove_task(i + j);
+			}
+		}
+		for(new j = TASK_PEREDOZ; j < TASK_PEREDOZ + DrugsEffects2; j++)
+		{
+			if(task_exists(i + j))
+			{
+				remove_task(i + j);
+			}
+		}
+		UTIL_ScreenFade(i, 0, 0, 0, 0, 0, 0, 0, 1);
+		message_begin(MSG_ONE_UNRELIABLE, get_user_msgid("SetFOV"), _, i);
+		write_byte(0);
+		message_end();
 	}
 }
 
@@ -261,10 +282,9 @@ public Show_MenuDrugs(id)
 	
 	len = formatex(menu[len], charsmax(menu) - len, "\yМеню Наркотиков^n^n");
 	
-	len += formatex(menu[len], charsmax(menu) - len, "\r[1]\w Инвентарь^n" );
-	len += formatex(menu[len], charsmax(menu) - len, "\r[2]\w Сварить \rНаркотик^n" );
-	len += formatex(menu[len], charsmax(menu) - len, "\r[3]\w Передать \rНаркотики^n^n" );
-	len += formatex(menu[len], charsmax(menu) - len, "\r[4] \dОписание: (Скоро)^n^n");// Наркотиков|Ломки|Передоза^n^n" );
+	len += formatex(menu[len], charsmax(menu) - len, "\r[1] \wИнвентарь^n" );
+	len += formatex(menu[len], charsmax(menu) - len, "\r[2] \wСварить \rНаркотик^n" );
+	len += formatex(menu[len], charsmax(menu) - len, "\r[3] \wПередать \rНаркотики^n^n" );
 	if(get_user_flags(id) & ADMIN_RCON)
 	{
 		len += formatex(menu[len], charsmax(menu) - len, "\r[5]\w Взять \r100 всех материалов.^n^n" );
@@ -282,7 +302,6 @@ public Handle_MenuDrugs(id, iKey)
 		case 0: Show_MenuInv(id);
 		case 1: Show_MenuCraft(id);
 		case 2: Show_MenuPay(id);
-		//case 3: show_motd(id, "drugs.txt");
 		case 4: 
 		{
 			for(new i = 0; i <= 3; i++)
@@ -377,7 +396,7 @@ public Show_MenuCraft(id)
 		iKeys |= (1<<3);
 	}
 	
-	len = formatex(menu[len], charsmax(menu) - len, "^t^t\yBreanking Bad^n^n");
+	len = formatex(menu[len], charsmax(menu) - len, "^t^t\yBreaking Bad^n^n");
 	
 	len += formatex(menu[len], charsmax(menu) - len, "\dБумага:\r %d^n", g_iMt[id][0]);
 	len += formatex(menu[len], charsmax(menu) - len, "\dЛожка:\r %d^n", g_iMt[id][1]);

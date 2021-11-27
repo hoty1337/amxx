@@ -12969,10 +12969,10 @@ public Ham_PlayerKilled_Post(iVictim, iKiller)
 						Open_KillReasonsMenu(iKiller, iVictim);
 					}
 				}
-				if(g_iAlivePlayersNum[1] == 1 && !g_iGlobalGame)
+				if(g_iAlivePlayersNum[1] == 1)
 				{
 					remove_task(8888);
-    			mafia_off();
+					mafia_off();
 					if(g_bSoccerStatus) jbm_soccer_disable_all();
 					if(g_bBoxingStatus) g_bBoxingStatus = false;
 					if(g_iFriendlyFire) g_iFriendlyFire = false;
@@ -14110,7 +14110,7 @@ public jbm_main_informer(pPlayer)
 				g_iLevel[pPlayer][1]++;
 				new szDir[128]; 
 				formatex(szDir, charsmax(szDir), "%s/ranks.log", g_szConfigsDir);
-				log_to_file(szDir, "<3 Игрок %n (%s) увеличил уровень погоняла до %s (%d).", pPlayer, g_szSteamID[pPlayer], g_szRankName[g_iLevel[pPlayer][1]], g_iLevel[pPlayer][1]);
+				log_to_file(szDir, "<3 Игрок %n (%s) увеличил уровень погоняла до %L (%d).", pPlayer, g_szSteamID[pPlayer], g_szRankName[g_iLevel[pPlayer][1]], g_iLevel[pPlayer][1]);
 				g_iExpName[pPlayer] = 0;
 				new szName[32];
 				get_user_name(pPlayer, szName, charsmax(szName)); 

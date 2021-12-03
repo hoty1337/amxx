@@ -144,8 +144,12 @@ jbm_dm_user_freeze(iVictim, iAttacker)
 public jbm_dm_user_death_timer(const iAttacker[], iVictim)
 {
 	iVictim -= TASK_DEATH_TIMER;
-	if(IsNotSetBit(g_iBitUserFrozen, iVictim) && task_exists(iVictim+TASK_DEATH_TIMER))
+	if(!is_user_alive(iVictim) || IsNotSetBit(g_iBitUserFrozen, iVictim) && task_exists(iVictim+TASK_DEATH_TIMER))
 	{
+		ClearBit(g_iBitUserFrozen, iVictim);
+		set_pev(iVictim, pev_flags, pev(iVictim, pev_flags) & ~FL_FROZEN);
+		fm_set_user_rendering(iVictim, kRenderFxNone, 0.0, 0.0, 0.0, kRenderNormal, 0.0);
+		UTIL_ScreenFade(iVictim, (1<<10), (1<<10), 0, 32, 164, 241, 200, 1);
 		remove_task(iVictim+TASK_DEATH_TIMER);
 		return;
 	}

@@ -9,7 +9,7 @@
 //#include		gamecms5
 
 #define HOOOOK // выключать только для тестов на другом сервере
-//#define XTREE // выключать только для тестов на другом сервере
+#define XTREE // выключать только для тестов на другом сервере
 #if defined HOOOOK
 	native give_hook(id);
 	native reset_hook(id);
